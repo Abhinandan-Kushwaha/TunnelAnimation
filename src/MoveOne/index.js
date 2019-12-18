@@ -25,70 +25,46 @@ export default class MoveOne extends React.PureComponent {
     };
   }
 
-  componentDidMount = () => {
-    console.log('mounted');
-  };
-
   boxPosition = x => {
-    let c = 1.5 * (x - 1) + 1;
+    let c1 = (x * x) / 400;
     let startPos = (height - BOX_MAX_HEIGHT) / 2;
     return this.state.scrollY.interpolate({
-      inputRange: [0, BOX_MAX_HEIGHT],
-      outputRange: [
-        startPos + BOX_MAX_HEIGHT * c,
-        startPos + BOX_MAX_HEIGHT * c * 0.5,
-      ],
+      inputRange: [0, height],
+      outputRange: [startPos + BOX_MAX_HEIGHT * 1.8 * x, -(3 - c1) * height],
       extrapolate: 'extend',
       easing: Easing.linear,
     });
   };
 
   boxSize = (x, DIMENSION_SIZE) => {
-    let c1 = (x * x) / 100;
-    let c2 = ((6 - x) * (6 - x)) / 100;
+    let c1;
+    if (x <= 14) {
+      c1 = (x * x) / 50;
+    } else {
+      c1 = (x * x) / 70;
+    }
+    let y2 = 0;
+
+    y2 = 3.8 + (x - 2) / 10;
+    //}
+
+    //let c2 = ((6 - x) * (6 - x)) / 100;
     return this.state.scrollY.interpolate({
-      inputRange: [0, BOX_MAX_HEIGHT],
+      inputRange: [0, height],
       outputRange: [
         DIMENSION_SIZE + DIMENSION_SIZE * c1,
-        DIMENSION_SIZE + DIMENSION_SIZE * c2 * -1,
+        DIMENSION_SIZE * y2 * -1,
       ],
       extrapolate: 'extend',
       easing: Easing.linear,
     });
   };
   render() {
-    let ar = [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-    ];
+    const {screen} = this.props;
+    let ar = [];
+    for (let i = 1; i <= 20; i++) {
+      ar[i - 1] = i;
+    }
     return (
       <View style={styles.container}>
         {ar.map(index => {
@@ -100,138 +76,16 @@ export default class MoveOne extends React.PureComponent {
                 height: this.boxSize(index, BOX_MAX_HEIGHT),
                 width: this.boxSize(index, BOX_MAX_WIDTH),
               }}>
-              <ViewReflector renderItem={this.renderView} />
+              <ViewReflector
+                renderItem={
+                  screen === 'GeekyList' ? this.renderItem : this.renderView
+                }
+              />
             </Animated.View>
           );
         })}
-        {/* <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(1),
-            height: this.boxSize(1, BOX_MAX_HEIGHT),
-            width: this.boxSize(1, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(2),
-            height: this.boxSize(2, BOX_MAX_HEIGHT),
-            width: this.boxSize(2, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(3),
-            height: this.boxSize(3, BOX_MAX_HEIGHT),
-            width: this.boxSize(3, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(4),
-            height: this.boxSize(4, BOX_MAX_HEIGHT),
-            width: this.boxSize(4, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(5),
-            height: this.boxSize(5, BOX_MAX_HEIGHT),
-            width: this.boxSize(5, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(6),
-            height: this.boxSize(6, BOX_MAX_HEIGHT),
-            width: this.boxSize(6, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(7),
-            height: this.boxSize(7, BOX_MAX_HEIGHT),
-            width: this.boxSize(7, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(8),
-            height: this.boxSize(8, BOX_MAX_HEIGHT),
-            width: this.boxSize(8, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(9),
-            height: this.boxSize(9, BOX_MAX_HEIGHT),
-            width: this.boxSize(9, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(10),
-            height: this.boxSize(10, BOX_MAX_HEIGHT),
-            width: this.boxSize(10, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(11),
-            height: this.boxSize(11, BOX_MAX_HEIGHT),
-            width: this.boxSize(11, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(12),
-            height: this.boxSize(12, BOX_MAX_HEIGHT),
-            width: this.boxSize(12, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: this.boxPosition(13),
-            height: this.boxSize(13, BOX_MAX_HEIGHT),
-            width: this.boxSize(13, BOX_MAX_WIDTH),
-          }}>
-          <ViewReflector renderItem={this.renderView} />
-        </Animated.View> */}
         <ScrollView
           scrollEventThrottle={16}
-          onScrollToTop={() => console.log('top reached')}
           onScroll={Animated.event([
             {nativeEvent: {contentOffset: {y: this.state.scrollY}}},
           ])}>
@@ -288,7 +142,7 @@ const styles = StyleSheet.create({
   },
   scrollStyle: {
     flex: 1,
-    height: 1200,
+    height: 1600,
     width: width,
     backgroundColor: 'transparent',
   },

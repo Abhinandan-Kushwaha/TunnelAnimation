@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   reflectorStyle: {
     transform: [{scaleY: -1}],
     opacity: 0.2,
-    height: '85%',
+    height: '80%',
     width: '100%',
   },
   contentContainer: {

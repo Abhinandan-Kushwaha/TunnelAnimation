@@ -2,13 +2,13 @@ import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Home from '../src/Home';
-import SomeComponent from '../src/SomeComponent';
+import Choices from '../src/Choices';
 import {View} from 'react-native';
 
 const HomeStack = createStackNavigator(
   {
     Home: {screen: Home},
-    SomeComponent: {screen: SomeComponent},
+    Choices: {screen: Choices},
   },
   {
     headerMode: 'none',

@@ -14,10 +14,10 @@ import ViewReflector from '../ViewReflector';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-const BOX_MAX_HEIGHT = 110;
+const BOX_MAX_HEIGHT = 100;
 const BOX_MAX_WIDTH = 400;
 
-export default class Preview3D2 extends React.PureComponent {
+export default class ConstantVelocity extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,42 +25,43 @@ export default class Preview3D2 extends React.PureComponent {
     };
   }
 
+  getCumulativeDistance = x => {
+    let s = 0,
+      j;
+    for (let i = 0; i < x; i++) {
+      j = i + (i * i) / 8;
+      s += 2 * (BOX_MAX_HEIGHT + (BOX_MAX_HEIGHT * j) / 3);
+    }
+    return s;
+  };
+
   boxPosition = x => {
-    let c = 1.5 * (x - 1) + 1;
-    let startPos = (height - BOX_MAX_HEIGHT) / 2;
+    let startPosition =
+      height - BOX_MAX_HEIGHT - 60 + this.getCumulativeDistance(x);
+
     return this.state.scrollY.interpolate({
-      inputRange: [0, BOX_MAX_HEIGHT],
-      outputRange: [
-        startPos + BOX_MAX_HEIGHT * 1.5 * x,
-        startPos + BOX_MAX_HEIGHT * c * 0.5,
-      ],
+      inputRange: [0, 900],
+      outputRange: [startPosition, 0],
       extrapolate: 'extend',
-      easing: Easing.linear,
     });
   };
 
   boxSize = (x, DIMENSION_SIZE) => {
-    let c1 = (x * x) / 100;
-    let c2 = ((6 - x) * (6 - x)) / 100;
+    x = x + (x * x) / 18;
+    let startSize = DIMENSION_SIZE + (DIMENSION_SIZE * x) / 3;
+    let endSize = startSize / 20;
+
     return this.state.scrollY.interpolate({
-      inputRange: [0, BOX_MAX_HEIGHT],
-      outputRange: [
-        DIMENSION_SIZE + DIMENSION_SIZE * c1,
-        DIMENSION_SIZE + DIMENSION_SIZE * c2 * -1,
-      ],
+      inputRange: [0, 900],
+      outputRange: [startSize, endSize],
       extrapolate: 'extend',
-      easing: Easing.linear,
     });
   };
   render() {
     const {screen} = this.props;
-    let num = 16;
-    if (screen === 'GeekyList') {
-      num = 8;
-    }
     let ar = [];
-    for (let i = 1; i <= num; i++) {
-      ar[i - 1] = i;
+    for (let i = 0; i <= 18; i++) {
+      ar[i] = i;
     }
     return (
       <View style={styles.container}>
@@ -100,7 +101,6 @@ export default class Preview3D2 extends React.PureComponent {
             style={{
               height: '100%',
               width: '100%',
-              resizeMode: 'contain',
             }}
             source={require('../../images/myn.png')}
           />
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   scrollStyle: {
     flex: 1,
-    height: 1200,
+    height: 1705, //1460,
     width: width,
     backgroundColor: 'transparent',
   },
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     marginBottom: 2,
-    borderRadius: 2,
+    borderRadius: 8,
   },
   row: {
     flexDirection: 'row',
     height: '100%',
     width: '100%',
     backgroundColor: '#ccddcc',
-    borderRadius: 2,
+    borderRadius: 8,
   },
   column1: {
     height: '100%',
@@ -204,15 +204,15 @@ const styles = StyleSheet.create({
     marginLeft: '6%',
   },
   subTitle1: {
-    height: '10%',
+    height: '9%',
     width: '50%',
     borderRadius: 4,
     backgroundColor: '#eeeeee',
-    marginTop: '6%',
+    marginTop: '4%',
     marginLeft: '6%',
   },
   subTitle2: {
-    height: '10%',
+    height: '9%',
     width: '30%',
     borderRadius: 4,
     backgroundColor: '#eeeeee',
