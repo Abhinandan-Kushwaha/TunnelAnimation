@@ -29,7 +29,7 @@ export default class ConstantVelocity extends React.PureComponent {
     let s = 0,
       j;
     for (let i = 0; i < x; i++) {
-      j = i + (i * i) / 8;
+      j = i + (i * i) / 8; ////changing the constants's value with an acceleration of 1/4
       s += 2 * (BOX_MAX_HEIGHT + (BOX_MAX_HEIGHT * j) / 3);
     }
     return s;
@@ -47,7 +47,7 @@ export default class ConstantVelocity extends React.PureComponent {
   };
 
   boxSize = (x, DIMENSION_SIZE) => {
-    x = x + (x * x) / 18;
+    x = x + (x * x) / 18; //changing the constants's value with an acceleration of 1/9
     let startSize = DIMENSION_SIZE + (DIMENSION_SIZE * x) / 3;
     let endSize = startSize / 20;
 

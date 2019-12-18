@@ -8,7 +8,6 @@ export default class Choices extends React.PureComponent {
     const {navigation} = this.props;
     const screen = navigation.getParam('screen');
     const mode = navigation.getParam('mode');
-    //Alert.alert(screen + ' ' + mode);
     return (
       <View>
         {mode === 'render' ? (
