@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   scrollStyle: {
     flex: 1,
-    height: 1705, //1460,
+    height: height * 2 + 80, //1460,
     width: width,
     backgroundColor: 'transparent',
   },
