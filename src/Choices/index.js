@@ -24,7 +24,7 @@ export default class Choices extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    this.setState({ swipeIndicatorVisible: true });
+    this.setState({swipeIndicatorVisible: true});
     this.animateHand();
   };
 
@@ -37,17 +37,17 @@ export default class Choices extends React.PureComponent {
     }).start(() => setTimeout(() => this.animateHand(), 600));
   }
   render() {
-    const { swipeIndicatorVisible } = this.state;
+    const {swipeIndicatorVisible} = this.state;
     const marginHand = this.animatedHand.interpolate({
       inputRange: [0, 1],
       outputRange: [120, 0],
     });
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const screen = navigation.getParam('screen');
     const mode = navigation.getParam('mode');
     return (
       <TouchableWithoutFeedback
-        onPressIn={() => this.setState({ swipeIndicatorVisible: false })}
+        onPressIn={() => this.setState({swipeIndicatorVisible: false})}
         activeOpacity={1}
         style={styles.container}>
         <View style={styles.container}>
@@ -55,7 +55,7 @@ export default class Choices extends React.PureComponent {
             <View style={styles.swipeIndicator}>
               <Animated.Image
                 source={require('../../images/swipeUpIcon.png')}
-                style={[styles.handStyle, { marginTop: marginHand }]}
+                style={[styles.handStyle, {marginTop: marginHand}]}
               />
             </View>
           )}
@@ -67,8 +67,8 @@ export default class Choices extends React.PureComponent {
           {mode === 'render' ? (
             <ConstantVelocity screen={screen} />
           ) : (
-              <Preview3D2 screen={screen} />
-            )}
+            <Preview3D2 screen={screen} />
+          )}
         </View>
       </TouchableWithoutFeedback>
     );
