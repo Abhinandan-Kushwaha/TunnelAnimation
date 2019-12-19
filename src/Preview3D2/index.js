@@ -53,7 +53,7 @@ export default class Preview3D2 extends React.PureComponent {
     });
   };
   render() {
-    const {screen} = this.props;
+    const { screen } = this.props;
     let num = 16;
     if (screen === 'GeekyList') {
       num = 8;
@@ -84,7 +84,7 @@ export default class Preview3D2 extends React.PureComponent {
         <ScrollView
           scrollEventThrottle={16}
           onScroll={Animated.event([
-            {nativeEvent: {contentOffset: {y: this.state.scrollY}}},
+            { nativeEvent: { contentOffset: { y: this.state.scrollY } } },
           ])}>
           <View style={styles.scrollStyle} />
         </ScrollView>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#667777',
+    backgroundColor: 'transparent',
   },
   scrollStyle: {
     flex: 1,

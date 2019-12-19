@@ -56,27 +56,27 @@ export default class Home extends React.PureComponent {
     }).start(() => this.spring());
   }
   drop1Pressed = () => {
-    this.setState({ drop1Visible: true, drop2Visible: false });
-    const { secondSectionVisible } = this.state;
+    this.setState({drop1Visible: true, drop2Visible: false});
+    const {secondSectionVisible} = this.state;
     this.animateDrop1();
     if (!secondSectionVisible) {
-      this.setState({ secondSectionVisible: true });
+      this.setState({secondSectionVisible: true});
       this.animate();
       this.spring();
     }
   };
   drop2Pressed = () => {
-    this.setState({ drop2Visible: true, drop1Visible: false });
-    const { secondSectionVisible } = this.state;
+    this.setState({drop2Visible: true, drop1Visible: false});
+    const {secondSectionVisible} = this.state;
     this.animateDrop2();
     if (!secondSectionVisible) {
-      this.setState({ secondSectionVisible: true });
+      this.setState({secondSectionVisible: true});
       this.animate();
       this.spring();
     }
   };
   render() {
-    const { secondSectionVisible, drop1Visible, drop2Visible } = this.state;
+    const {secondSectionVisible, drop1Visible, drop2Visible} = this.state;
     const opacity = this.animatedValue.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
@@ -98,39 +98,45 @@ export default class Home extends React.PureComponent {
     return (
       <View style={styles.container}>
         <View style={styles.section}>
-          <View style={styles.drop1}>
-            <TouchableOpacity style={styles.radio} onPress={this.drop1Pressed}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={this.drop1Pressed}
+            style={styles.drop1}>
+            <View style={styles.radio}>
               {drop1Visible && (
                 <Animated.Image
                   source={require('../../images/water.png')}
-                  style={[styles.waterDrop, { marginTop: marginDrop1 }]}
+                  style={[styles.waterDrop, {marginTop: marginDrop1}]}
                 />
               )}
-            </TouchableOpacity>
+            </View>
             <Text style={styles.textStyle}>Render List</Text>
-          </View>
-          <View style={styles.drop2}>
-            <TouchableOpacity style={styles.radio} onPress={this.drop2Pressed}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={this.drop2Pressed}
+            style={styles.drop2}>
+            <View style={styles.radio}>
               {drop2Visible && (
                 <Animated.Image
                   source={require('../../images/water.png')}
-                  style={[styles.waterDrop, { marginTop: marginDrop2 }]}
+                  style={[styles.waterDrop, {marginTop: marginDrop2}]}
                 />
               )}
-            </TouchableOpacity>
+            </View>
             <Text style={styles.textStyle}>Preview List</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         {secondSectionVisible && (
           <Animated.View
             style={[
               styles.section2,
-              { opacity: opacity, marginBottom: movingMargin },
+              {opacity: opacity, marginBottom: movingMargin},
             ]}>
             <Animated.Text
               style={[
                 styles.textStyleMargined,
-                { transform: [{ scale: this.springValue }] },
+                {transform: [{scale: this.springValue}]},
               ]}>
               Select a layout
             </Animated.Text>
@@ -143,27 +149,27 @@ export default class Home extends React.PureComponent {
     );
   }
   renderItemPressed = () => {
-    const { navigation } = this.props;
-    const { drop1Visible } = this.state;
+    const {navigation} = this.props;
+    const {drop1Visible} = this.state;
     let mode = '';
     if (drop1Visible) {
       mode = 'render';
     } else {
       mode = 'preview';
     }
-    navigation.navigate('Choices', { screen: 'GeekyList', mode: mode });
+    navigation.navigate('Choices', {screen: 'GeekyList', mode: mode});
   };
 
   renderViewPressed = () => {
-    const { navigation } = this.props;
-    const { drop1Visible } = this.state;
+    const {navigation} = this.props;
+    const {drop1Visible} = this.state;
     let mode = '';
     if (drop1Visible) {
       mode = 'render';
     } else {
       mode = 'preview';
     }
-    navigation.navigate('Choices', { screen: 'SimpleList', mode: mode });
+    navigation.navigate('Choices', {screen: 'SimpleList', mode: mode});
   };
   renderItem = () => {
     return (
@@ -249,7 +255,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: '#667777',
   },
-  waterDrop: { resizeMode: 'contain', width: 50, height: 50 },
+  waterDrop: {resizeMode: 'contain', width: 50, height: 50},
   radio: {
     height: 50,
     width: 50,
