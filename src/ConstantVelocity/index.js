@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
-  Easing,
   ScrollView,
   Image,
 } from 'react-native';
@@ -58,7 +57,7 @@ export default class ConstantVelocity extends React.PureComponent {
     });
   };
   render() {
-    const {screen} = this.props;
+    const { screen } = this.props;
     let ar = [];
     for (let i = 0; i <= 18; i++) {
       ar[i] = i;
@@ -85,7 +84,7 @@ export default class ConstantVelocity extends React.PureComponent {
         <ScrollView
           scrollEventThrottle={16}
           onScroll={Animated.event([
-            {nativeEvent: {contentOffset: {y: this.state.scrollY}}},
+            { nativeEvent: { contentOffset: { y: this.state.scrollY } } },
           ])}>
           <View style={styles.scrollStyle} />
         </ScrollView>

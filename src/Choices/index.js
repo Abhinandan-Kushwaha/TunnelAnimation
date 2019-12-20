@@ -6,7 +6,6 @@ import {
   Animated,
   Easing,
   Text,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import ConstantVelocity from '../ConstantVelocity';
 import Preview3D2 from '../Preview3D2';
@@ -17,15 +16,13 @@ const width = Dimensions.get('window').width;
 export default class Choices extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      swipeIndicatorVisible: true,
-    };
     this.animatedHand = new Animated.Value(0);
+    this.animatedOpacity = new Animated.Value(1);
   }
 
   componentDidMount = () => {
-    this.setState({swipeIndicatorVisible: true});
     this.animateHand();
+    this.animateOpacity();
   };
 
   animateHand() {
@@ -36,41 +33,50 @@ export default class Choices extends React.PureComponent {
       easing: Easing.linear,
     }).start(() => setTimeout(() => this.animateHand(), 600));
   }
+  animateOpacity() {
+    this.animatedOpacity.setValue(1);
+    Animated.timing(this.animatedOpacity, {
+      toValue: 0,
+      duration: 3000,
+      easing: Easing.linear,
+    }).start();
+  }
   render() {
-    const {swipeIndicatorVisible} = this.state;
     const marginHand = this.animatedHand.interpolate({
       inputRange: [0, 1],
       outputRange: [120, 0],
+    });
+    const handOpacity = this.animatedOpacity.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
     });
     const {navigation} = this.props;
     const screen = navigation.getParam('screen');
     const mode = navigation.getParam('mode');
     return (
-      <TouchableWithoutFeedback
-        onPressIn={() => this.setState({swipeIndicatorVisible: false})}
-        activeOpacity={1}
-        style={styles.container}>
-        <View style={styles.container}>
-          {swipeIndicatorVisible && (
-            <View style={styles.swipeIndicator}>
-              <Animated.Image
-                source={require('../../images/swipeUpIcon.png')}
-                style={[styles.handStyle, {marginTop: marginHand}]}
-              />
-            </View>
-          )}
-          {swipeIndicatorVisible && (
-            <View style={styles.textContainerStyle}>
-              <Text style={styles.textStyle}>Scroll Up</Text>
-            </View>
-          )}
-          {mode === 'render' ? (
-            <ConstantVelocity screen={screen} />
-          ) : (
-            <Preview3D2 screen={screen} />
-          )}
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        <Animated.View style={[styles.swipeIndicator, {opacity: handOpacity}]}>
+          <Animated.Image
+            source={require('../../images/swipeUpIcon.png')}
+            style={[styles.handStyle, {marginTop: marginHand}]}
+          />
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.textContainerStyle,
+            {opacity: handOpacity},
+            mode === 'render' ? {left: width / 2 - 34} : {left: width / 2 - 60},
+          ]}>
+          <Text style={styles.textStyle}>
+            {mode === 'render' ? 'Scroll Up' : 'Scroll Up Slowly'}
+          </Text>
+        </Animated.View>
+        {mode === 'render' ? (
+          <ConstantVelocity screen={screen} />
+        ) : (
+          <Preview3D2 screen={screen} />
+        )}
+      </View>
     );
   }
 }
@@ -94,7 +100,6 @@ const styles = StyleSheet.create({
   textContainerStyle: {
     position: 'absolute',
     top: height / 2 - 132,
-    left: width / 2 - 34,
     backgroundColor: '#667777',
   },
   textStyle: {
