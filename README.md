@@ -1,6 +1,6 @@
 # TunnelAnimation
 
-The idea was to create a View that could be wrapped around a ListView or FlatList and can be rendered in a highly interactive manner.
+The idea was to create a View just like a ListView or FlatList and can be rendered in a highly interactive manner.
 
 ![Animation Demo](/myAnimApp.gif)
 
